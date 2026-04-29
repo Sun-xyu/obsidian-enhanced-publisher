@@ -474,6 +474,11 @@ rt {
   line-height: 2;
   color: black;
 }
+.wechat-content blockquote p {
+  font-size: 15px;
+  line-height: 1.9;
+  color: #6a737d;
+}
 .wechat-content a { color: rgb(239, 112, 96); text-decoration: none; border-bottom: 1px solid rgb(239, 112, 96); word-wrap: break-word; font-weight: bold; }
 .wechat-content ul, .wechat-content ol {
   margin-top: 8px;
@@ -500,7 +505,7 @@ rt {
 }
 .wechat-content blockquote {
   display: block;
-  font-size: .9em;
+  font-size: 15px;
   color: #6a737d;
   overflow: auto;
   margin-top: 20px;
@@ -523,10 +528,16 @@ rt {
   word-break: break-all;
 }
 .wechat-content pre {
-  margin: 10px 0;
-  padding: 15px;
+  margin: 14px 0;
+  padding: 34px 18px 18px 18px;
   background-color: #282c34;
-  border-radius: 5px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.1);
+  background-image:
+    radial-gradient(circle at 22px 18px, #ff5f57 0 6px, transparent 6.5px),
+    radial-gradient(circle at 42px 18px, #febc2e 0 6px, transparent 6.5px),
+    radial-gradient(circle at 62px 18px, #28c840 0 6px, transparent 6.5px);
+  background-repeat: no-repeat;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
@@ -539,6 +550,8 @@ rt {
   line-height: 1.5;
   border-radius: 0;
   word-break: normal;
+  white-space: pre;
+  font-family: Operator Mono, Consolas, Monaco, Menlo, monospace;
 }
 .wechat-content table { margin: 20px 0; border-collapse: collapse; width: 100%; font-size: 1rem; }
 .wechat-content table th, .wechat-content table td { padding: 5px 10px; border: 1px solid #ccc; text-align: left; }
@@ -585,6 +598,61 @@ rt {
 
             h2.appendChild(label);
             h2.appendChild(wedge);
+        });
+
+        return doc.body.innerHTML;
+    }
+
+    /**
+     * 稳定橙心主题代码块在公众号中的表现
+     * 1. 收轻阴影，避免看起来像底部叠了一层
+     * 2. 将缩进空格固化为不换行空格，防止公众号压缩前导空格
+     */
+    private stabilizeOrangeHeartCodeBlocks(htmlContent: string): string {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(htmlContent, 'text/html');
+
+        doc.querySelectorAll('pre').forEach(pre => {
+            if (pre.querySelector('svg') ||
+                pre.classList.contains('mermaid') ||
+                pre.querySelector('.mermaid') ||
+                pre.querySelector('.plantuml')) {
+                return;
+            }
+
+            const preEl = pre as HTMLElement;
+            preEl.style.boxShadow = '0 4px 12px rgba(15, 23, 42, 0.1)';
+            preEl.style.padding = '34px 18px 18px 18px';
+
+            const code = pre.querySelector('code') as HTMLElement | null;
+            if (!code) return;
+
+            code.style.whiteSpace = 'pre';
+            code.style.wordBreak = 'normal';
+            code.style.fontFamily = 'Operator Mono, Consolas, Monaco, Menlo, monospace';
+
+            const walker = doc.createTreeWalker(code, NodeFilter.SHOW_TEXT);
+            const textNodes: Text[] = [];
+            let currentNode = walker.nextNode();
+            while (currentNode) {
+                textNodes.push(currentNode as Text);
+                currentNode = walker.nextNode();
+            }
+
+            textNodes.forEach(textNode => {
+                const value = textNode.nodeValue;
+                if (!value) return;
+
+                const normalized = value
+                    .replace(/\t/g, '\u00A0\u00A0')
+                    .replace(/(^|\n)(  +)/g, (_, prefix: string, spaces: string) => {
+                        return prefix + '\u00A0'.repeat(spaces.length);
+                    });
+
+                if (normalized !== value) {
+                    textNode.nodeValue = normalized;
+                }
+            });
         });
 
         return doc.body.innerHTML;
@@ -1308,11 +1376,11 @@ rt {
                 ? await this.convertMathToSVG(highlightedContent, markdown)
                 : highlightedContent;
 
-            // 4. 为中国风主题添加装饰元素（必须在 juice 之前）
-            const decoratedContent = this.themeConfig.style === WechatThemeStyle.CHINESE_STYLE
-                ? this.addChineseStyleDecorations(mathConvertedContent)
-                : mathConvertedContent;
-
+            // 4. 为主题添加需要真实 HTML 结构的装饰元素（必须在 juice 之前）
+            let decoratedContent = mathConvertedContent;
+            if (this.themeConfig.style === WechatThemeStyle.CHINESE_STYLE) {
+                decoratedContent = this.addChineseStyleDecorations(decoratedContent);
+            }
             // 3.6. 转换 Mermaid 为 PNG (仅在明确请求时，例如复制到剪贴板)
             let processedContent = decoratedContent;
             if (convertMermaid) {
@@ -1383,7 +1451,7 @@ rt {
             };
 
             // 3.5 为橙心主题转换 H2 结构（必须在 juice 之前，否则新元素的 class 样式无法内联）
-            let contentWithH2 = decoratedContent;
+            let contentWithH2 = processedContent;
             if (this.themeConfig.style === WechatThemeStyle.ORANGE_HEART) {
                 contentWithH2 = this.addOrangeHeartH2Decorations(contentWithH2);
             }
@@ -1422,6 +1490,10 @@ rt {
                 finalContent = finalContent.split(id).join(svgString);
             });
             this.mathJaxPlaceholderMap.clear();
+
+            if (this.themeConfig.style === WechatThemeStyle.ORANGE_HEART) {
+                finalContent = this.stabilizeOrangeHeartCodeBlocks(finalContent);
+            }
 
             const outerDivRegex = /^<div class="wechat-content">([\s\S]*)<\/div>$/;
             const match = finalContent.match(outerDivRegex);
