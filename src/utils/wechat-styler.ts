@@ -416,91 +416,178 @@ rt {
     }
 
     /**
-     * 获取橙心主题 CSS（模拟 mdnice 橙心风格）
+     * 获取橙心主题 CSS（适配 typora-theme-orange-heart 的公开样式）
      */
     private getOrangeHeartCSS(): string {
         return `
 .wechat-content {
   font-size: 16px;
   color: black;
-  line-height: 1.6;
-  letter-spacing: 0px;
-  word-spacing: 0px;
+  padding: 0 10px;
+  line-height: 2;
+  word-spacing: 0;
+  letter-spacing: 0;
   word-break: break-word;
   word-wrap: break-word;
   text-align: left;
-  font-family: 'PingFang SC', 'PingFangTC-Light', 'PingFangSC-Light', 'PingFangTC-light', Optima, 'SimSun', 'Helvetica Neue', sans-serif;
+  font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, 'PingFang SC', Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 .wechat-content h1, .wechat-content h2, .wechat-content h3, .wechat-content h4, .wechat-content h5, .wechat-content h6 {
-  margin-top: 30px;
-  margin-bottom: 15px;
+  margin: 1.2em 0 1em;
+  padding: 0;
   font-weight: bold;
   color: black;
 }
-.wechat-content h1 { font-size: 24px; font-weight: bold; }
+.wechat-content h1 { font-size: 1.5rem; }
 .wechat-content h2 {
-  font-size: 1.3em;
-  font-weight: bold;
-  color: black;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: flex-end;
   border-bottom: 2px solid rgb(239, 112, 96);
-  padding: 3px 10px 1px;
-  display: inline-block;
+}
+.wechat-content h2 .h2-label {
   background: rgb(239, 112, 96);
   color: #ffffff;
+  padding: 5px 14px 3px 14px;
   border-top-right-radius: 3px;
   border-top-left-radius: 3px;
-  margin-right: 3px;
+  display: inline-block;
+  line-height: 1.4;
 }
-.wechat-content h3 { font-size: 20px; padding-left: 12px; border-left: 3px solid rgb(239, 112, 96); }
-.wechat-content h4 { font-size: 18px; }
-.wechat-content h5 { font-size: 16px; }
-.wechat-content h6 { font-size: 16px; color: #777; }
-.wechat-content p { margin: 10px 0px; line-height: 26px; font-size: 16px; word-spacing: 2px; }
+.wechat-content h2 .h2-wedge {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-right: 3px;
+  border-bottom: 1.25rem solid #efebe9;
+  border-right: 1.25rem solid transparent;
+}
+.wechat-content h3 { font-size: 1.3rem; }
+.wechat-content h4 { font-size: 1.2rem; }
+.wechat-content h5 { font-size: 1.1rem; }
+.wechat-content h6 { font-size: 1rem; }
+.wechat-content p, .wechat-content blockquote p {
+  font-size: 1rem;
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+  margin: 0;
+  line-height: 2;
+  color: black;
+}
 .wechat-content a { color: rgb(239, 112, 96); text-decoration: none; border-bottom: 1px solid rgb(239, 112, 96); word-wrap: break-word; font-weight: bold; }
-.wechat-content ul, .wechat-content ol { margin: 15px 0; padding-left: 30px; font-family: 'PingFang SC', 'PingFangTC-Light', 'PingFangSC-Light', 'PingFangTC-light', Optima, 'SimSun', 'Helvetica Neue', sans-serif; }
-.wechat-content li { margin: 8px 0; line-height: 1.75; font-size: 16px; font-family: inherit; }
+.wechat-content ul, .wechat-content ol {
+  margin-top: 8px;
+  margin-bottom: 8px;
+  padding-left: 25px;
+  color: black;
+}
+.wechat-content ul { list-style-type: disc; }
+.wechat-content ul ul { list-style-type: square; }
+.wechat-content ol { list-style-type: decimal; }
+.wechat-content li {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  line-height: 1.7rem;
+  text-align: left;
+  color: rgb(1,1,1);
+  font-size: 16px;
+  font-weight: 400;
+}
+.wechat-content li p,
+.wechat-content li span {
+  font-size: 16px;
+  font-weight: 400;
+}
 .wechat-content blockquote {
-  margin: 20px 0;
-  padding: 15px 20px;
-  border-left: 3px solid rgba(0, 0, 0, 0.4);
+  display: block;
+  font-size: .9em;
   color: #6a737d;
+  overflow: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 10px 10px 10px 20px;
   background: #fff9f9;
   border-left-color: rgb(239, 112, 96);
-  overflow: auto;
-  overflow-scrolling: touch;
+  border-left-width: 3px;
+  border-left-style: solid;
 }
-.wechat-content blockquote p { margin: 0px; }
+.wechat-content code {
+  font-family: Operator Mono, Consolas, Monaco, Menlo, monospace;
+  font-size: .9rem;
+  word-wrap: break-word;
+  padding: 2px 4px;
+  border-radius: 4px;
+  margin: 0 2px;
+  color: rgb(239, 112, 96);
+  background-color: rgba(27,31,35,.05);
+  word-break: break-all;
+}
 .wechat-content pre {
   margin: 10px 0;
   padding: 15px;
   background-color: #282c34;
   border-radius: 5px;
-  box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
-.wechat-content code {
-  font-family: Operator Mono, Consolas, Monaco, Menlo, monospace;
-  font-size: 12px;
-  background-color: #282c34;
+.wechat-content pre code {
+  display: block;
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
   color: #abb2bf;
-  padding: 16px;
-  border-radius: 5px;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
+  line-height: 1.5;
+  border-radius: 0;
+  word-break: normal;
 }
-.wechat-content pre code { display: block; padding: 0; background-color: transparent; color: #abb2bf; line-height: 1.5; }
-.wechat-content table { margin: 20px 0; border-collapse: collapse; width: 100%; font-size: 14px; }
+.wechat-content table { margin: 20px 0; border-collapse: collapse; width: 100%; font-size: 1rem; }
 .wechat-content table th, .wechat-content table td { padding: 5px 10px; border: 1px solid #ccc; text-align: left; }
 .wechat-content table th { background-color: #f0f0f0; font-weight: bold; }
 .wechat-content table tr:nth-child(even) { background-color: #F8F8F8; }
 .wechat-content hr { margin: 30px 0; border: none; border-top: 1px solid #eee; }
-.wechat-content img { max-width: 100%; height: auto; display: block; margin: 10px auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); }
+.wechat-content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12), 0 2px 8px rgba(15, 23, 42, 0.08);
+}
 .wechat-content strong { font-weight: bold; color: black; }
 .wechat-content em { font-style: italic; }
 .wechat-content del { text-decoration: line-through; color: #999; }
 .wechat-content mark { background-color: rgb(239, 112, 96); color: #ffffff; padding: 2px 4px; border-radius: 2px; }
         `;
+    }
+
+    /**
+     * 为橙心主题转换 H2 标题结构
+     * 将 h2 转换为标题标签块 + 右侧斜切装饰，贴近原主题结构
+     */
+    private addOrangeHeartH2Decorations(htmlContent: string): string {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(htmlContent, 'text/html');
+
+        doc.querySelectorAll('.wechat-content h2').forEach(h2 => {
+            const text = h2.textContent || '';
+
+            // 清空 h2 内容
+            h2.innerHTML = '';
+
+            // 创建左侧标签 span
+            const label = doc.createElement('span');
+            label.className = 'h2-label';
+            label.textContent = text;
+
+            // 创建右侧斜切装饰 span
+            const wedge = doc.createElement('span');
+            wedge.className = 'h2-wedge';
+
+            h2.appendChild(label);
+            h2.appendChild(wedge);
+        });
+
+        return doc.body.innerHTML;
     }
 
     /**
@@ -1295,7 +1382,13 @@ rt {
                 return serializer.serializeToString(doc.body);
             };
 
-            const contentToInline = protectContent(decoratedContent);
+            // 3.5 为橙心主题转换 H2 结构（必须在 juice 之前，否则新元素的 class 样式无法内联）
+            let contentWithH2 = decoratedContent;
+            if (this.themeConfig.style === WechatThemeStyle.ORANGE_HEART) {
+                contentWithH2 = this.addOrangeHeartH2Decorations(contentWithH2);
+            }
+
+            const contentToInline = protectContent(contentWithH2);
 
             // 4. 使用 juice 将 CSS 内联到 HTML 中
             const inlineResult = juice.inlineContent(contentToInline, themeCSS, {
