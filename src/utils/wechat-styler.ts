@@ -462,7 +462,7 @@ rt {
   border-bottom: 1.25rem solid #efebe9;
   border-right: 1.25rem solid transparent;
 }
-.wechat-content h3 { font-size: 1.3rem; }
+.wechat-content h3 { font-size: 1.15rem; }
 .wechat-content h4 { font-size: 1.2rem; }
 .wechat-content h5 { font-size: 1.1rem; }
 .wechat-content h6 { font-size: 1rem; }
