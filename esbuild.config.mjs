@@ -39,7 +39,7 @@ const context = await esbuild.context({
 	define: {
 		'PACKAGE_VERSION': '"3.2.1"'
 	},
-	outfile: 'main.js',
+	outdir: 'build',
 });
 
 if (prod) {

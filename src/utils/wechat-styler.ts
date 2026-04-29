@@ -49,6 +49,9 @@ export class WechatStyler {
             case WechatThemeStyle.CHINESE_STYLE:
                 baseCSS = this.getChineseStyleCSS();
                 break;
+            case WechatThemeStyle.ORANGE_HEART:
+                baseCSS = this.getOrangeHeartCSS();
+                break;
             default:
                 baseCSS = this.getModernMinimalCSS();
         }
@@ -409,6 +412,94 @@ rt {
 .wechat-content em { font-style: italic; }
 .wechat-content del { text-decoration: line-through; color: #999; }
 .wechat-content mark { background-color: #c8161d; color: #ffffff; padding: 2px 4px; border-radius: 2px; }
+        `;
+    }
+
+    /**
+     * 获取橙心主题 CSS（模拟 mdnice 橙心风格）
+     */
+    private getOrangeHeartCSS(): string {
+        return `
+.wechat-content {
+  font-size: 16px;
+  color: black;
+  line-height: 1.6;
+  letter-spacing: 0px;
+  word-spacing: 0px;
+  word-break: break-word;
+  word-wrap: break-word;
+  text-align: left;
+  font-family: Optima-Regular, Optima, PingFangTC-Light, PingFangSC-light, PingFangTC-light, 'PingFang SC', Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.wechat-content h1, .wechat-content h2, .wechat-content h3, .wechat-content h4, .wechat-content h5, .wechat-content h6 {
+  margin-top: 30px;
+  margin-bottom: 15px;
+  font-weight: bold;
+  color: black;
+}
+.wechat-content h1 { font-size: 24px; font-weight: bold; }
+.wechat-content h2 {
+  font-size: 1.3em;
+  font-weight: bold;
+  color: black;
+  border-bottom: 2px solid rgb(239, 112, 96);
+  padding: 3px 10px 1px;
+  display: inline-block;
+  background: rgb(239, 112, 96);
+  color: #ffffff;
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
+  margin-right: 3px;
+}
+.wechat-content h3 { font-size: 20px; padding-left: 12px; border-left: 3px solid rgb(239, 112, 96); }
+.wechat-content h4 { font-size: 18px; }
+.wechat-content h5 { font-size: 16px; }
+.wechat-content h6 { font-size: 16px; color: #777; }
+.wechat-content p { margin: 10px 0px; line-height: 26px; font-size: 14px; word-spacing: 2px; }
+.wechat-content a { color: rgb(239, 112, 96); text-decoration: none; border-bottom: 1px solid rgb(239, 112, 96); word-wrap: break-word; font-weight: bold; }
+.wechat-content ul, .wechat-content ol { margin: 15px 0; padding-left: 30px; }
+.wechat-content li { margin: 8px 0; line-height: 1.75; }
+.wechat-content blockquote {
+  margin: 20px 0;
+  padding: 15px 20px;
+  border-left: 3px solid rgba(0, 0, 0, 0.4);
+  color: #6a737d;
+  background: #fff9f9;
+  border-left-color: rgb(239, 112, 96);
+  overflow: auto;
+  overflow-scrolling: touch;
+}
+.wechat-content blockquote p { margin: 0px; }
+.wechat-content pre {
+  margin: 10px 0;
+  padding: 15px;
+  background-color: #282c34;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.wechat-content code {
+  font-family: Operator Mono, Consolas, Monaco, Menlo, monospace;
+  font-size: 12px;
+  background-color: #282c34;
+  color: #abb2bf;
+  padding: 16px;
+  border-radius: 5px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.wechat-content pre code { display: block; padding: 0; background-color: transparent; color: #abb2bf; line-height: 1.5; }
+.wechat-content table { margin: 20px 0; border-collapse: collapse; width: 100%; font-size: 14px; }
+.wechat-content table th, .wechat-content table td { padding: 5px 10px; border: 1px solid #ccc; text-align: left; }
+.wechat-content table th { background-color: #f0f0f0; font-weight: bold; }
+.wechat-content table tr:nth-child(even) { background-color: #F8F8F8; }
+.wechat-content hr { margin: 30px 0; border: none; border-top: 1px solid #eee; }
+.wechat-content img { max-width: 100%; height: auto; display: block; margin: 0 auto; border-radius: 3px; }
+.wechat-content strong { font-weight: bold; color: black; }
+.wechat-content em { font-style: italic; }
+.wechat-content del { text-decoration: line-through; color: #999; }
+.wechat-content mark { background-color: rgb(239, 112, 96); color: #ffffff; padding: 2px 4px; border-radius: 2px; }
         `;
     }
 
