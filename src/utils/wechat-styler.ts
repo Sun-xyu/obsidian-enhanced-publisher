@@ -429,7 +429,7 @@ rt {
   word-break: break-word;
   word-wrap: break-word;
   text-align: left;
-  font-family: Optima-Regular, Optima, PingFangTC-Light, PingFangSC-light, PingFangTC-light, 'PingFang SC', Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-family: 'PingFang SC', 'PingFangTC-Light', 'PingFangSC-Light', 'PingFangTC-light', Optima, 'SimSun', 'Helvetica Neue', sans-serif;
 }
 .wechat-content h1, .wechat-content h2, .wechat-content h3, .wechat-content h4, .wechat-content h5, .wechat-content h6 {
   margin-top: 30px;
@@ -455,10 +455,10 @@ rt {
 .wechat-content h4 { font-size: 18px; }
 .wechat-content h5 { font-size: 16px; }
 .wechat-content h6 { font-size: 16px; color: #777; }
-.wechat-content p { margin: 10px 0px; line-height: 26px; font-size: 14px; word-spacing: 2px; }
+.wechat-content p { margin: 10px 0px; line-height: 26px; font-size: 16px; word-spacing: 2px; }
 .wechat-content a { color: rgb(239, 112, 96); text-decoration: none; border-bottom: 1px solid rgb(239, 112, 96); word-wrap: break-word; font-weight: bold; }
-.wechat-content ul, .wechat-content ol { margin: 15px 0; padding-left: 30px; }
-.wechat-content li { margin: 8px 0; line-height: 1.75; }
+.wechat-content ul, .wechat-content ol { margin: 15px 0; padding-left: 30px; font-family: 'PingFang SC', 'PingFangTC-Light', 'PingFangSC-Light', 'PingFangTC-light', Optima, 'SimSun', 'Helvetica Neue', sans-serif; }
+.wechat-content li { margin: 8px 0; line-height: 1.75; font-size: 16px; font-family: inherit; }
 .wechat-content blockquote {
   margin: 20px 0;
   padding: 15px 20px;
@@ -495,7 +495,7 @@ rt {
 .wechat-content table th { background-color: #f0f0f0; font-weight: bold; }
 .wechat-content table tr:nth-child(even) { background-color: #F8F8F8; }
 .wechat-content hr { margin: 30px 0; border: none; border-top: 1px solid #eee; }
-.wechat-content img { max-width: 100%; height: auto; display: block; margin: 0 auto; border-radius: 3px; }
+.wechat-content img { max-width: 100%; height: auto; display: block; margin: 10px auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); }
 .wechat-content strong { font-weight: bold; color: black; }
 .wechat-content em { font-style: italic; }
 .wechat-content del { text-decoration: line-through; color: #999; }
