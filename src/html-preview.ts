@@ -1234,6 +1234,47 @@ function preprocessMarkdown(markdown: string): string {
         return id;
     });
 
+    // 0.5 处理横滑布局语法
+    // 语法：<![图1](a.jpg),![图2](b.jpg),![图3](c.jpg)>
+    // 转换为原生 HTML，后续交给 MarkdownRenderer 和样式系统处理
+    processed = processed.replace(/^<((?:!\[[^\]]*?\]\([^)]+?\)\s*,\s*)*!\[[^\]]*?\]\([^)]+?\))>$/gm, (match, imagesPart) => {
+        const imagePattern = /!\[([^\]]*?)\]\(([^)]+?)\)/g;
+        const items: string[] = [];
+        let imageMatch: RegExpExecArray | null;
+
+        while ((imageMatch = imagePattern.exec(imagesPart)) !== null) {
+            const alt = imageMatch[1].trim();
+            const src = imageMatch[2].trim();
+            const safeAlt = alt
+                .replace(/&/g, '&amp;')
+                .replace(/"/g, '&quot;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+            const safeSrc = src
+                .replace(/&/g, '&amp;')
+                .replace(/"/g, '&quot;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+
+            items.push(
+                `<section class="imageflow-layer3"><img alt="${safeAlt}" src="${safeSrc}" class="imageflow-img"></section>`
+            );
+        }
+
+        if (items.length < 2) {
+            return match;
+        }
+
+        return [
+            `<section class="imageflow-layer1">`,
+            `<section class="imageflow-layer2">`,
+            items.join(''),
+            `</section>`,
+            `</section>`,
+            `<p class="imageflow-caption"><span>&lt;&lt;&lt; 左右滑动见更多 &gt;&gt;&gt;</span></p>`
+        ].join('');
+    });
+
     // 1. 转换 LaTeX 括号语法为 Obsidian 支持的 $ 语法
 
     // \[...\] -> $$...$$

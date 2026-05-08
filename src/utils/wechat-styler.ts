@@ -143,6 +143,50 @@ rt {
     line-height: 1.2;
     text-align: center;
 }
+
+/* 横滑布局 */
+.wechat-content .imageflow-layer1 {
+    margin: 20px 0 10px;
+    padding: 0;
+    overflow: hidden;
+}
+.wechat-content .imageflow-layer2 {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+}
+.wechat-content .imageflow-layer3 {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+}
+.wechat-content .imageflow-img {
+    margin: 0 auto;
+    max-width: 100%;
+    width: 100%;
+    display: inline-block;
+}
+.wechat-content .imageflow-caption {
+    color: rgb(0, 0, 0);
+    font-size: 16px;
+    line-height: 1.8em;
+    letter-spacing: 0;
+    text-indent: 0;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+.wechat-content .imageflow-caption span {
+    display: block;
+    color: rgb(136, 136, 136);
+    font-size: 14px;
+    line-height: 1.8em;
+    letter-spacing: 0;
+    text-align: center;
+    font-weight: normal;
+}
         `;
     }
 
