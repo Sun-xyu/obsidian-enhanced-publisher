@@ -574,14 +574,9 @@ rt {
 .wechat-content pre {
   margin: 14px 0;
   padding: 34px 18px 18px 18px;
-  background-color: #282c34;
+  background-color: #2c2c2c;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.1);
-  background-image:
-    radial-gradient(circle at 22px 18px, #ff5f57 0 6px, transparent 6.5px),
-    radial-gradient(circle at 42px 18px, #febc2e 0 6px, transparent 6.5px),
-    radial-gradient(circle at 62px 18px, #28c840 0 6px, transparent 6.5px);
-  background-repeat: no-repeat;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
@@ -596,6 +591,15 @@ rt {
   word-break: normal;
   white-space: pre;
   font-family: Operator Mono, Consolas, Monaco, Menlo, monospace;
+}
+.wechat-content pre,
+.wechat-content pre code,
+.wechat-content pre .hljs,
+.wechat-content pre code span {
+  white-space: pre !important;
+  word-break: normal !important;
+  word-wrap: normal !important;
+  overflow-wrap: normal !important;
 }
 .wechat-content table { margin: 20px 0; border-collapse: collapse; width: 100%; font-size: 1rem; }
 .wechat-content table th, .wechat-content table td { padding: 5px 10px; border: 1px solid #ccc; text-align: left; }
@@ -665,15 +669,35 @@ rt {
             }
 
             const preEl = pre as HTMLElement;
-            preEl.style.boxShadow = '0 4px 12px rgba(15, 23, 42, 0.1)';
+            preEl.style.boxShadow = '0 1px 3px rgba(15, 23, 42, 0.05)';
             preEl.style.padding = '34px 18px 18px 18px';
+            preEl.style.backgroundColor = '#2c2c2c';
+            preEl.style.setProperty('white-space', 'pre', 'important');
+            preEl.style.setProperty('word-break', 'keep-all', 'important');
+            preEl.style.setProperty('word-wrap', 'normal', 'important');
+            preEl.style.setProperty('overflow-wrap', 'normal', 'important');
 
             const code = pre.querySelector('code') as HTMLElement | null;
             if (!code) return;
 
-            code.style.whiteSpace = 'pre';
-            code.style.wordBreak = 'normal';
+            code.style.setProperty('white-space', 'pre', 'important');
+            code.style.setProperty('word-break', 'keep-all', 'important');
+            code.style.setProperty('word-wrap', 'normal', 'important');
+            code.style.setProperty('overflow-wrap', 'normal', 'important');
             code.style.fontFamily = 'Operator Mono, Consolas, Monaco, Menlo, monospace';
+            code.style.color = '#abb2bf';
+            code.style.display = 'inline-block';
+            code.style.minWidth = '100%';
+
+            code.querySelectorAll('span').forEach(span => {
+                const tokenEl = span as HTMLElement;
+                tokenEl.style.setProperty('white-space', 'pre', 'important');
+                tokenEl.style.setProperty('word-break', 'keep-all', 'important');
+                tokenEl.style.setProperty('word-wrap', 'normal', 'important');
+                tokenEl.style.setProperty('overflow-wrap', 'normal', 'important');
+                tokenEl.style.color = '#abb2bf';
+                tokenEl.style.display = 'inline';
+            });
 
             const walker = doc.createTreeWalker(code, NodeFilter.SHOW_TEXT);
             const textNodes: Text[] = [];
@@ -689,9 +713,7 @@ rt {
 
                 const normalized = value
                     .replace(/\t/g, '\u00A0\u00A0')
-                    .replace(/(^|\n)(  +)/g, (_, prefix: string, spaces: string) => {
-                        return prefix + '\u00A0'.repeat(spaces.length);
-                    });
+                    .replace(/ /g, '\u00A0');
 
                 if (normalized !== value) {
                     textNode.nodeValue = normalized;

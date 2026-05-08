@@ -264,6 +264,42 @@ export class HtmlPreviewView extends ItemView implements HtmlPreviewCustomProper
                 const parser = new DOMParser();
                 const parsedDoc = parser.parseFromString(contentToCopy, 'text/html');
 
+                // 复制专用：将代码块扁平化为纯文本等宽结构。
+                // 公众号会重排 highlight.js 生成的 span token，导致命令被异常断开或空格被放大。
+                // 这里保留代码块外观，但移除 token 级高亮，优先保证空格、换行和命令结构稳定。
+                parsedDoc.querySelectorAll('pre code').forEach(codeEl => {
+                    const code = codeEl as HTMLElement;
+                    const rawText = code.textContent || '';
+
+                    // 将普通空格固化为不换行空格，避免公众号折叠或在 token 边界处制造视觉大空格。
+                    const stabilizedText = rawText
+                        .replace(/\t/g, '\u00A0\u00A0')
+                        .replace(/ /g, '\u00A0');
+
+                    code.innerHTML = '';
+                    code.textContent = stabilizedText;
+                    code.style.whiteSpace = 'pre';
+                    code.style.wordBreak = 'keep-all';
+                    code.style.wordWrap = 'normal';
+                    (code.style as any).overflowWrap = 'normal';
+                    code.style.display = 'inline-block';
+                    code.style.textAlign = 'left';
+                    (code.style as any).textJustify = 'auto';
+                    code.style.width = 'max-content';
+                    code.style.minWidth = '0';
+                    code.style.maxWidth = 'none';
+
+                    const pre = code.closest('pre') as HTMLElement | null;
+                    if (pre) {
+                        pre.style.whiteSpace = 'normal';
+                        pre.style.textAlign = 'left';
+                        (pre.style as any).textJustify = 'auto';
+                        pre.style.overflowX = 'scroll';
+                        pre.style.overflowY = 'hidden';
+                        (pre.style as any).webkitOverflowScrolling = 'touch';
+                    }
+                });
+
                 // 使用安全的DOM API复制内容
                 const fragment = document.createDocumentFragment();
                 Array.from(parsedDoc.body.childNodes).forEach(node => {
